@@ -1,4 +1,6 @@
-data/*
-training.pdf
-model/*
-model_output/*
+data/
+*.pdf
+model/
+model[0-9]*/
+model_output/
+model_output[0-9]*/
