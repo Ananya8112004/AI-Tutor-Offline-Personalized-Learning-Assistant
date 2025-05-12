@@ -36,6 +36,18 @@ C:\Users\ashis\Ashish\coding\github\AI_Tutor\dataset\data\
 ```
 
 ---
+## ✅ Step 1: Normalize All Datasets into `input → output` Format
+
+### 📘 What We’ll Do:
+
+| Dataset             | Task               | Format (`input`, `output`)                                  |
+| ------------------- | ------------------ | ----------------------------------------------------------- |
+| `cnn_dailymail.csv` | Summarization      | `"summarize: <article>"`, `"<summary>"`                     |
+| `scitldr.csv`       | Summarization      | `"summarize: <paper abstract>"`, `"<tl;dr>"`                |
+| `sciq_quiz.csv`     | Quiz generation    | `"generate quiz: <passage>"`, `"Q:... A:... [MCQ style]"`   |
+| `squad_qa.csv`      | Question answering | `"question: <question> context: <paragraph>"`, `"<answer>"` |
+
+---
 
 ## Model Architecture
 
