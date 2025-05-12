@@ -1,3 +1,3 @@
 import torch
-print(torch.cuda.is_available())          # Should be True
-print(torch.cuda.get_device_name(0))      # Should show your GPU (e.g., RTX 3050)
+print("CUDA available:", torch.cuda.is_available())
+print("Device name:", torch.cuda.get_device_name(0) if torch.cuda.is_available() else "N/A")

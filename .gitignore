@@ -1,2 +1,4 @@
 data/*
 training.pdf
+model/*
+model_output/*
