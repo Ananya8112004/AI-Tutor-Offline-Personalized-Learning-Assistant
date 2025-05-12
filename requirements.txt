@@ -1,0 +1,10 @@
+torch>=2.0.0
+transformers>=4.35.0
+datasets>=2.15.0
+sentencepiece
+accelerate
+streamlit
+pdfplumber or PyMuPDF
+scikit-learn
+numpy
+pymupdf

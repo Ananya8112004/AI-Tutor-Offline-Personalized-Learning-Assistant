@@ -28,20 +28,11 @@ This project aims to build a fully offline, custom-trained Tutor AI model that e
 ## Project Structure
 
 ```plaintext
-TutorAI_Custom/
-├── data/                    # Preprocessed and raw dataset files
-├── model/
-│   ├── tokenizer/           # Trained tokenizer files
-│   └── checkpoints/         # Pretrained and fine-tuned model checkpoints
-├── training/
-│   ├── pretrain.py          # Script for phase 1 pretraining
-│   └── finetune.py          # Script for phase 2 fine-tuning
-├── app/
-│   ├── app.py               # Streamlit app frontend
-│   ├── utils.py             # Utility functions (file parsing, prompts)
-│   └── model_loader.py      # Load model/tokenizer for inference
-├── requirements.txt         # All dependencies
-└── README.md                # Project documentation
+C:\Users\ashis\Ashish\coding\github\AI_Tutor\dataset\data\
+│   cnn_dailymail.csv      ← Summarization
+│   sciq_quiz.csv          ← Quiz generation (MCQs)
+│   scitldr.csv            ← Scientific summarization
+│   squad_qa.csv           ← Question Answering
 ```
 
 ---
