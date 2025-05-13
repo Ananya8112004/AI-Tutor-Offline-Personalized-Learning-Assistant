@@ -9,6 +9,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import json
 import re
 import sys
+import os
 
 # Optional: Patch torch.classes to avoid Streamlit conflict
 class DummyModule:
@@ -17,36 +18,33 @@ class DummyModule:
 import types
 sys.modules["torch.classes"] = DummyModule()
 
-# Load model + tokenizer
+# Load your **custom fine-tuned model** instead of flan-t5-base
 @st.cache_resource
 def load_model():
-    tokenizer = T5Tokenizer.from_pretrained("google/flan-t5-base")
-    model = T5ForConditionalGeneration.from_pretrained("google/flan-t5-base").to("cuda")
+    model_path = "model/t5_custom"
+    tokenizer = T5Tokenizer.from_pretrained(model_path)
+    model = T5ForConditionalGeneration.from_pretrained(model_path)
+    model.to("cuda")
+    model.eval()  # improves inference speed
     return tokenizer, model
 
 tokenizer, model = load_model()
 
-# Extract text from uploaded PDF
 def extract_text_from_pdf(uploaded_file):
     pdf_doc = fitz.open(stream=uploaded_file.read(), filetype="pdf")
-    full_text = ""
-    for page in pdf_doc:
-        full_text += page.get_text()
-    return full_text
+    return "\n".join(page.get_text() for page in pdf_doc)
 
-# Break text into chunks
 def chunk_text(text, max_words=500):
     words = text.split()
     return [" ".join(words[i:i + max_words]) for i in range(0, len(words), max_words)]
 
-# Run the model task
 def run_t5_task(prompt, prefix=""):
     input_text = f"{prefix}: {prompt.strip()}" if prefix else prompt.strip()
     input_ids = tokenizer(input_text, return_tensors="pt", truncation=True, max_length=512).input_ids.to("cuda")
-    output_ids = model.generate(input_ids, max_length=256)
+    with torch.no_grad():
+        output_ids = model.generate(input_ids, max_length=256)
     return tokenizer.decode(output_ids[0], skip_special_tokens=True)
 
-# Get most relevant PDF chunks for a question
 def get_top_k_chunks(question, chunks, k=3):
     vectorizer = TfidfVectorizer().fit(chunks + [question])
     vectors = vectorizer.transform(chunks + [question])
@@ -54,7 +52,6 @@ def get_top_k_chunks(question, chunks, k=3):
     top_indices = similarities.argsort()[-k:][::-1]
     return [chunks[i] for i in top_indices]
 
-# Extract MCQ question and options from model output
 def parse_mcq_output(text):
     try:
         question_match = re.search(r'Question:\s*(.*)', text)

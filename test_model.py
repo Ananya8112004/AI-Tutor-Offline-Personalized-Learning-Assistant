@@ -1,15 +1,21 @@
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 
-# Load custom model
 tokenizer = T5Tokenizer.from_pretrained("model/t5_custom")
-model = T5ForConditionalGeneration.from_pretrained("model/t5_custom").to("cuda")  # or "cpu" if no GPU
+model = T5ForConditionalGeneration.from_pretrained("model/t5_custom")
+# model.to("cuda")
 
-# Run a sample inference
-def run_custom_model(prompt, prefix=""):
-    input_text = f"{prefix}: {prompt.strip()}" if prefix else prompt.strip()
-    input_ids = tokenizer(input_text, return_tensors="pt", truncation=True, max_length=512).input_ids.to("cuda")
-    output_ids = model.generate(input_ids, max_length=150)
+def predict(text, prefix=""):
+    input_text = f"{prefix}: {text}" if prefix else text
+    inputs = tokenizer(input_text, return_tensors="pt", truncation=True, max_length=512)
+    # .to("cuda")
+    output_ids = model.generate(inputs["input_ids"], max_length=100)
     return tokenizer.decode(output_ids[0], skip_special_tokens=True)
 
-# Example
-print(run_custom_model("Mesophiles grow best in moderate temperature", "generate quiz"))
+# Example: test summarization or QA
+# print("🔍 Testing summary...")
+# print(predict("summarize: Deep learning models can generate natural language based on input sequences."))
+# Input from your cnn_dailymail or scitldr
+test_input = "summarize: The Moon is Earth’s only natural satellite. It is about one-sixth as large as Earth. The Moon is held in orbit by Earth’s gravity."
+
+print("🔍 Predicted Summary:")
+print(predict(test_input))
