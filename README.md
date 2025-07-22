@@ -28,7 +28,7 @@ This project aims to build a fully offline, custom-trained Tutor AI model that e
 ## Project Structure
 
 ```plaintext
-C:\Users\ashis\Ashish\coding\github\AI_Tutor\dataset\data\
+F:\projects\AI Tutor_Offline_Personalized_Learning_Assistant\AI_Tutor
 │   cnn_dailymail.csv      ← Summarization
 │   sciq_quiz.csv          ← Quiz generation (MCQs)
 │   scitldr.csv            ← Scientific summarization
