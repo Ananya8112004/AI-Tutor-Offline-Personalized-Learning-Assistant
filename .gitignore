@@ -1,0 +1,6 @@
+data/
+*.pdf
+model/
+model[0-9]*/
+model_output/
+model_output[0-9]*/
